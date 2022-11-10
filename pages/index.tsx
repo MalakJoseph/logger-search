@@ -1,15 +1,13 @@
 import type { NextPage } from "next";
 import ErrorPage from "next/error";
-import useSWR, { Fetcher } from "swr";
-import Layout from "./app/components/Layout";
-import { AuditLog } from "../interfaces";
 import { BallTriangle } from "react-loader-spinner";
+import useSWR from "swr";
+import { AuditLog } from "../interfaces";
 import handler from "./api/logs";
+import App from "./app/App";
 
 const IndexPage: NextPage = () => {
   const { data, error } = useSWR<AuditLog[], Error>("/api/logs", handler);
-
-  console.log("auditLogs:", data);
 
   // currentPage: 1,
   // postsPerPage: 5,
@@ -27,13 +25,7 @@ const IndexPage: NextPage = () => {
       </div>
     );
 
-  return (
-    <Layout>
-      <h1 className="flex justify-center text-slate-700 red font-bold bg-red-300">
-        Hello Next.js 👋
-      </h1>
-    </Layout>
-  );
+  return <App data={data} />;
 };
 
 export default IndexPage;

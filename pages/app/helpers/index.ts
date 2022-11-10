@@ -1,0 +1,1 @@
+export { capitalizeString } from "./capitalizeString";
