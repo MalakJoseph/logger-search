@@ -1,7 +1,9 @@
-import { AuditLog } from "../../interfaces";
+import { useState } from "react";
+import Layout from "./components/Layout";
 import { ChevronUp } from "./assets/icons/ChevronUp";
 import Layout from "./components/Layout";
-import { capitalizeString } from "./helpers";
+import { AuditLog } from "../../interfaces";
+import { capitalizeString } from "../../utils/capitalizeString";
 
 interface AppProps {
   data: AuditLog[];

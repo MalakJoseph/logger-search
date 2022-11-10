@@ -1,1 +1,1 @@
-export { capitalizeString } from "./capitalizeString";
+export { dataMapper } from "./dataMapper";
