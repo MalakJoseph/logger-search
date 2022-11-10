@@ -14,13 +14,11 @@ const Pagination = ({
   totalCount,
   setCurrentPage,
 }: PaginationProps) => {
-  console.log(currentPage);
-  console.log(totalCount);
-
   const renderPagination = () => {
     const maxPageNum = Math.ceil(totalCount / logsPerPage);
     const paginationArray: (ReactElement | number)[] = [
       <button
+        key="left-chevron"
         type="button"
         className="w-full p-4 border text-base rounded-l-xl text-gray-600 bg-white hover:bg-gray-100"
         onClick={() =>
@@ -39,6 +37,7 @@ const Pagination = ({
     for (let i = 1; i <= maxPageNum; i++) {
       paginationArray.push(
         <button
+          key={i}
           type="button"
           className={`w-full px-4 py-2 border-t border-b border-r text-base bg-white hover:bg-gray-100 ${
             currentPage === i ? "text-indigo-500 text-lg" : ""
@@ -52,6 +51,7 @@ const Pagination = ({
 
     paginationArray.push(
       <button
+        key="right-chevron"
         type="button"
         className="w-full p-4 border text-base  rounded-r-xl text-gray-600 bg-white hover:bg-gray-100"
         onClick={() =>
