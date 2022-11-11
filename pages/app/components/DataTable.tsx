@@ -1,35 +1,28 @@
-import { useState, useEffect } from "react";
-import { AuditLog, PickedDataKeys, PickedLogs } from "../../../interfaces";
-import { dataMapper } from "../helpers";
+import { Dispatch, SetStateAction } from "react";
+import { PickedDataKeys, PickedLogs } from "../../../interfaces";
 import { ChevronUp } from "../assets/icons/ChevronUp";
 import { capitalizeString, SortMode } from "../../../utils";
 
 interface DataTableProps {
-  data: AuditLog[];
-  currentPage: number;
-  logsPerPage: number;
+  formattedData: PickedLogs;
+  dataKeys: PickedDataKeys[];
+  activeKey: PickedDataKeys;
+  setActiveKey: Dispatch<SetStateAction<PickedDataKeys>>;
+  sortMode: SortMode;
+  setSortMode: Dispatch<SetStateAction<SortMode>>;
 }
 
-const DataTable = ({ data, currentPage, logsPerPage }: DataTableProps) => {
-  const [formattedData, setFormattedData] = useState<PickedLogs>();
-  const [activeKey, setActiveKey] = useState<PickedDataKeys>("logId");
-  const [sortMode, setSortMode] = useState<SortMode>("DEFAULT");
-
-  useEffect(() => {
-    setFormattedData(
-      dataMapper({
-        data: data,
-        currentPage: currentPage,
-        logsPerPage: logsPerPage,
-        activeKey: activeKey,
-        mode: sortMode,
-      })
-    );
-  }, [data, currentPage, activeKey, sortMode]);
-
+const DataTable = ({
+  formattedData,
+  dataKeys,
+  activeKey,
+  setActiveKey,
+  sortMode,
+  setSortMode,
+}: DataTableProps) => {
   const sortColumn = (key: PickedDataKeys) => {
-    const toggledMode =
-      sortMode === "ASC" ? "DESC" : sortMode === "DESC" ? "ASC" : "DESC";
+    const toggledMode = sortMode === "DESC" ? "ASC" : "DESC";
+    // sortMode === "ASC" ? "DESC" : sortMode === "DESC" ? "ASC" : "DESC";
 
     if (key === activeKey) {
       setSortMode(toggledMode);
@@ -37,9 +30,6 @@ const DataTable = ({ data, currentPage, logsPerPage }: DataTableProps) => {
     }
     setSortMode("DESC");
   };
-
-  const dataKeys =
-    formattedData && (Object.keys(formattedData[0]) as PickedDataKeys[]);
 
   return (
     <table className="table p-4 my-5 w-full bg-white shadow rounded-lg text-sm">
