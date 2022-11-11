@@ -1,14 +1,26 @@
-import { AuditLog } from "../../../interfaces";
+import { AuditLog, PickedDataKeys, PickedLogs } from "../../../interfaces";
+import { sortData, SortMode } from "../../../utils";
 
-export function dataMapper(
-  data: AuditLog[],
-  currentPage: number,
-  logsPerPage: number
-) {
+type DataMapperProps = {
+  data: AuditLog[];
+  currentPage: number;
+  logsPerPage: number;
+  mode: SortMode;
+  activeKey: PickedDataKeys;
+};
+
+export function dataMapper({
+  data,
+  currentPage,
+  logsPerPage,
+  mode,
+  activeKey,
+}: DataMapperProps): PickedLogs {
   const indexOfLastLog = currentPage * logsPerPage;
   const indexOfFirstLog = indexOfLastLog - logsPerPage;
-  const singleRowData = data.slice(indexOfFirstLog, indexOfLastLog);
-  const pickedData = singleRowData.map((log) => ({
+  const sortedData = data.sort(sortData(activeKey, mode));
+  const singleRowData = sortedData.slice(indexOfFirstLog, indexOfLastLog);
+  const pickedLogs = singleRowData.map((log) => ({
     logId: log.logId,
     applicationType: log.applicationType,
     applicationId: log.applicationId,
@@ -17,5 +29,5 @@ export function dataMapper(
     creationTimestamp: log.creationTimestamp,
   }));
 
-  return pickedData;
+  return pickedLogs;
 }

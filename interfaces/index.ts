@@ -1,16 +1,16 @@
 export type AuditLog = {
   logId: number;
-  applicationId: number;
   applicationType: string;
-  companyId: number;
+  applicationId: number;
   actionType: string;
+  logInfo: string;
+  creationTimestamp: string;
+  companyId: number;
   ip: string;
   userAgent: string;
   userId: number;
   source: string;
   ownerId: any;
-  logInfo: string;
-  creationTimestamp: string;
 };
 
 export type Data = {
@@ -24,3 +24,13 @@ export type Data = {
     auditLog: AuditLog[];
   };
 };
+
+export type PickedDataKeys =
+  | "logId"
+  | "applicationType"
+  | "applicationId"
+  | "actionType"
+  | "logInfo"
+  | "creationTimestamp";
+
+export type PickedLogs = Pick<AuditLog, PickedDataKeys>[];
