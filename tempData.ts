@@ -1492,7 +1492,7 @@ export const data = {
         creationTimestamp: "2022-01-27 20:01:43",
       },
       {
-        logId: 884600735587367,
+        logId: 884600735587367 + 1,
         applicationId: 999981634774738,
         applicationType: "ADD_COMPANY_EMPLOYEE",
         companyId: 52,
@@ -1507,7 +1507,7 @@ export const data = {
         creationTimestamp: "2022-01-27 20:01:43",
       },
       {
-        logId: 884600735587367,
+        logId: 884600735587367 + 2,
         applicationId: 999981634774738,
         applicationType: "ADD_COMPANY_EMPLOYEE",
         companyId: 52,
