@@ -1,5 +1,10 @@
 import React, { useState, FormEvent, useEffect, ReactElement } from "react";
+import { useRouter } from "next/router";
 import { capitalizeString } from "../../../utils";
+import {
+  parseSearchQuery,
+  stringifySearchQuery,
+} from "../../../utils/resolveSearchQuery";
 import { assignType } from "../helpers";
 
 export type FilterKeys =
@@ -25,6 +30,7 @@ interface FiltersProps {
 }
 
 const Filters = ({ filterKeys }: FiltersProps) => {
+  const { push, pathname } = useRouter();
   const [formData, setFormData] = useState<FormData>();
 
   useEffect(() => {
@@ -53,10 +59,16 @@ const Filters = ({ filterKeys }: FiltersProps) => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const dataToSubmit = filterKeys.map((key) => ({
-      [key]: formData[key].value,
-    }));
-    console.log("dataToSubmit:", dataToSubmit);
+    let dataToSubmit = {} as Record<string, string>[];
+
+    filterKeys.forEach((key) => {
+      if (!formData[key].value) {
+        return;
+      }
+      dataToSubmit[key] = formData[key].value;
+    });
+
+    push(`${pathname}/?${stringifySearchQuery(dataToSubmit)}`);
   };
 
   return (

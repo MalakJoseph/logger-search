@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Layout from "./components/Layout";
 import Pagination from "./components/Pagination";
 import DataTable from "./components/DataTable";
@@ -19,6 +20,8 @@ interface AppProps {
 const logsPerPage = 10;
 
 const App = ({ data }: AppProps) => {
+  const { query } = useRouter();
+  console.log("query:", query);
   const [currentPage, setCurrentPage] = useState(1);
 
   const [formattedData, setFormattedData] = useState<PickedLogs>();
