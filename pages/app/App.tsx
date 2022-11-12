@@ -43,10 +43,6 @@ const App = ({ data }: AppProps) => {
     setTotalCount(totalCount);
   }, [data, currentPage, activeKey, sortMode, query]);
 
-  if (!formattedData?.length) {
-    return "No found data!!";
-  }
-
   const dataKeys =
     formattedData && (Object.keys(formattedData[0]) as PickedDataKeysType[]);
 
