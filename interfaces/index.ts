@@ -1,16 +1,16 @@
 export type AuditLog = {
   logId: number;
-  applicationType: string;
-  applicationId: number;
+  applicationType: string | null;
+  applicationId: number | null;
   actionType: string;
-  logInfo: string;
+  logInfo: string | null;
   creationTimestamp: string;
-  companyId: number;
+  companyId: number | null;
   ip: string;
   userAgent: string;
-  userId: number;
-  source: string;
-  ownerId: any;
+  userId: number | null;
+  source: string | null;
+  ownerId: number | null;
 };
 
 export type Data = {
