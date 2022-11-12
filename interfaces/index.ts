@@ -25,12 +25,15 @@ export type Data = {
   };
 };
 
-export type PickedDataKeys =
-  | "logId"
-  | "applicationType"
-  | "applicationId"
-  | "actionType"
-  | "logInfo"
-  | "creationTimestamp";
+export enum PickedDataKeys {
+  "logId" = "logId",
+  "applicationType" = "applicationType",
+  "applicationId" = "applicationId",
+  "actionType" = "actionType",
+  "logInfo" = "logInfo",
+  "creationTimestamp" = "creationTimestamp",
+}
 
-export type PickedLogs = Pick<AuditLog, PickedDataKeys>[];
+export type PickedDataKeysType = keyof typeof PickedDataKeys;
+
+export type PickedLogs = Pick<AuditLog, PickedDataKeysType>[];

@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import Layout from "./components/Layout";
 import Pagination from "./components/Pagination";
-import { AuditLog, PickedDataKeys, PickedLogs } from "../../interfaces";
 import DataTable from "./components/DataTable";
-import { dataMapper } from "./helpers";
-import { SortMode } from "../../utils";
+import Filters, { FilterKeys } from "./components/Filters";
+import { dataMapper, sortFilterKeys } from "./helpers";
+import {
+  AuditLog,
+  PickedDataKeys,
+  PickedDataKeysType,
+  PickedLogs,
+} from "../../interfaces";
+import { insert, SortMode } from "../../utils";
 
 interface AppProps {
   data: AuditLog[];
@@ -16,7 +22,9 @@ const App = ({ data }: AppProps) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [formattedData, setFormattedData] = useState<PickedLogs>();
-  const [activeKey, setActiveKey] = useState<PickedDataKeys>("logId");
+  const [activeKey, setActiveKey] = useState<PickedDataKeysType>(
+    PickedDataKeys.logId
+  );
   const [sortMode, setSortMode] = useState<SortMode>("DEFAULT");
 
   useEffect(() => {
@@ -32,13 +40,13 @@ const App = ({ data }: AppProps) => {
   }, [data, currentPage, activeKey, sortMode]);
 
   const dataKeys =
-    formattedData && (Object.keys(formattedData[0]) as PickedDataKeys[]);
+    formattedData && (Object.keys(formattedData[0]) as PickedDataKeysType[]);
+
+  const filterKeys = extractFilterKeys(dataKeys);
 
   return (
     <Layout>
-      <h1 className="flex justify-center text-slate-700 red font-bold bg-red-300">
-        Hello Next.js 👋
-      </h1>
+      <Filters filterKeys={filterKeys} />
       <DataTable
         formattedData={formattedData}
         dataKeys={dataKeys}
@@ -58,3 +66,19 @@ const App = ({ data }: AppProps) => {
 };
 
 export default App;
+
+function extractFilterKeys(oldKeys: PickedDataKeysType[]) {
+  const filteredKeys = oldKeys
+    ?.filter((key) => key !== PickedDataKeys.logInfo)
+    .filter((key) => key !== PickedDataKeys.creationTimestamp);
+
+  const sortedFilterKeys = sortFilterKeys(filteredKeys);
+
+  const newKeys: FilterKeys[] = insert(
+    sortedFilterKeys,
+    sortedFilterKeys?.length - 1,
+    ["fromData", "toData"]
+  );
+
+  return newKeys;
+}

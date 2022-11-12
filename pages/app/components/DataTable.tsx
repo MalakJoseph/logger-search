@@ -1,13 +1,13 @@
 import { Dispatch, SetStateAction } from "react";
-import { PickedDataKeys, PickedLogs } from "../../../interfaces";
+import { PickedDataKeysType, PickedLogs } from "../../../interfaces";
 import { ChevronUp } from "../assets/icons/ChevronUp";
 import { capitalizeString, SortMode } from "../../../utils";
 
 interface DataTableProps {
   formattedData: PickedLogs;
-  dataKeys: PickedDataKeys[];
-  activeKey: PickedDataKeys;
-  setActiveKey: Dispatch<SetStateAction<PickedDataKeys>>;
+  dataKeys: PickedDataKeysType[];
+  activeKey: PickedDataKeysType;
+  setActiveKey: Dispatch<SetStateAction<PickedDataKeysType>>;
   sortMode: SortMode;
   setSortMode: Dispatch<SetStateAction<SortMode>>;
 }
@@ -20,7 +20,7 @@ const DataTable = ({
   sortMode,
   setSortMode,
 }: DataTableProps) => {
-  const sortColumn = (key: PickedDataKeys) => {
+  const sortColumn = (key: PickedDataKeysType) => {
     const toggledMode = sortMode === "DESC" ? "ASC" : "DESC";
     // sortMode === "ASC" ? "DESC" : sortMode === "DESC" ? "ASC" : "DESC";
 

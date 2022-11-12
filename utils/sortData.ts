@@ -1,8 +1,8 @@
-import { PickedDataKeys } from "../interfaces";
+import { PickedDataKeysType } from "../interfaces";
 
 export type SortMode = "ASC" | "DESC" | "DEFAULT";
 
-export function sortData(key: PickedDataKeys, mode?: SortMode) {
+export function sortData(key: PickedDataKeysType, mode?: SortMode) {
   return function (a, b) {
     const dynamicA = a[key];
     const dynamicB = b[key];

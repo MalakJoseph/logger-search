@@ -1,4 +1,4 @@
-import { AuditLog, PickedDataKeys, PickedLogs } from "../../../interfaces";
+import { AuditLog, PickedDataKeysType, PickedLogs } from "../../../interfaces";
 import { sortData, SortMode } from "../../../utils";
 
 type DataMapperProps = {
@@ -6,7 +6,7 @@ type DataMapperProps = {
   currentPage: number;
   logsPerPage: number;
   mode: SortMode;
-  activeKey: PickedDataKeys;
+  activeKey: PickedDataKeysType;
 };
 
 export function dataMapper({
