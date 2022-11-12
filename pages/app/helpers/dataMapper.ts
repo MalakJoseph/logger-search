@@ -1,4 +1,10 @@
-import { AuditLog, PickedDataKeysType, PickedLogs } from "../../../interfaces";
+import { ParsedUrlQuery } from "querystring";
+import {
+  AuditLog,
+  FilterKeys,
+  PickedDataKeysType,
+  PickedLogs,
+} from "../../../interfaces";
 import { sortData, SortMode } from "../../../utils";
 
 type DataMapperProps = {
@@ -7,6 +13,7 @@ type DataMapperProps = {
   logsPerPage: number;
   mode: SortMode;
   activeKey: PickedDataKeysType;
+  query: ParsedUrlQuery;
 };
 
 export function dataMapper({
@@ -15,10 +22,13 @@ export function dataMapper({
   logsPerPage,
   mode,
   activeKey,
+  query,
 }: DataMapperProps): PickedLogs {
+  const isFilters = Object.keys(query).length !== 0;
+  const filteredData = isFilters ? filterData(data, query) : data;
+  const sortedData = filteredData.sort(sortData(activeKey, mode));
   const indexOfLastLog = currentPage * logsPerPage;
   const indexOfFirstLog = indexOfLastLog - logsPerPage;
-  const sortedData = data.sort(sortData(activeKey, mode));
   const singleRowData = sortedData.slice(indexOfFirstLog, indexOfLastLog);
   const pickedLogs = singleRowData.map((log) => ({
     logId: log.logId,
@@ -30,4 +40,27 @@ export function dataMapper({
   }));
 
   return pickedLogs;
+}
+
+function filterData(data: AuditLog[], query: ParsedUrlQuery) {
+  const queriedKeys = Object.keys(query) as FilterKeys[];
+  const store: AuditLog[] = [];
+
+  data?.forEach((log) => {
+    queriedKeys?.forEach((key) => {
+      const suitedQueryKey =
+        typeof log[key] === "number" ? +query[key] : query[key];
+      const isNewLog =
+        store.findIndex((cachedLog) => +cachedLog.logId === log.logId) === -1;
+
+      if (log[key] === suitedQueryKey && isNewLog) {
+        store.push({
+          ...log,
+          [key]: query[key],
+        });
+      }
+    });
+  });
+
+  return store;
 }

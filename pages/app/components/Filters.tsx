@@ -6,6 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { useRouter } from "next/router";
+import { ParsedUrlQuery } from "querystring";
 import { capitalizeString } from "../../../utils";
 import { stringifySearchQuery } from "../../../utils/resolveSearchQuery";
 import { assignType } from "../helpers";
@@ -15,7 +16,7 @@ type FormData = {
   [key in FilterKeys]: {
     displayName: string;
     type: InputTypes;
-    value: string | null;
+    value: string;
   };
 };
 
@@ -23,12 +24,14 @@ interface FiltersProps {
   filterKeys: FilterKeys[];
   actionTypeOptions: string[];
   applicationTypeOptions: string[];
+  query: ParsedUrlQuery;
 }
 
 const Filters = ({
   filterKeys,
   actionTypeOptions,
   applicationTypeOptions,
+  query,
 }: FiltersProps) => {
   const { push, pathname } = useRouter();
   const [formData, setFormData] = useState<FormData>();
@@ -40,7 +43,7 @@ const Filters = ({
         (store[key] = {
           displayName: capitalizeString(key),
           type: assignType(key),
-          value: null,
+          value: (query[key] as string) || "",
         })
     );
     return store;
@@ -78,12 +81,12 @@ const Filters = ({
         {filterKeys?.map((key) => {
           let renderedInput: ReactElement;
 
-          if (formData[key]?.type === "input") {
+          if (formData?.[key]?.type === "input") {
             renderedInput = (
               <input
                 type="text"
                 id={key}
-                value={formData[key].value}
+                value={formData?.[key].value}
                 className="rounded-md border-transparent mt-0.5  flex-1 appearance-none border border-gray-300 w-full py-1 px-3 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent"
                 onChange={(e) => handleChange(e, key)}
                 placeholder="659481832792580"
@@ -91,16 +94,16 @@ const Filters = ({
             );
           }
 
-          if (formData[key]?.type === "select") {
+          if (formData?.[key]?.type === "select") {
             renderedInput = (
               <select
                 id={key}
-                value={formData[key].value}
+                value={formData?.[key].value}
                 className="rounded-md border-transparent mt-0.5 flex-1 border border-gray-300 w-full py-1 px-3 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent focus:ring-primary-500 focus:border-primary-500"
                 onChange={(e) => handleChange(e, key)}
               >
                 <option value="">Select an option</option>
-                {renderSelectionOptions(
+                {renderSelectOptions(
                   key === PickedDataKeys.actionType
                     ? actionTypeOptions
                     : applicationTypeOptions
@@ -109,12 +112,12 @@ const Filters = ({
             );
           }
 
-          if (formData[key]?.type === "date-picker") {
+          if (formData?.[key]?.type === "date-picker") {
             renderedInput = (
               <input
                 type="text"
                 id="from-date"
-                value={formData[key].value}
+                value={formData?.[key].value}
                 className="rounded-md border-transparent mt-0.5  flex-1 appearance-none border border-gray-300 w-full py-1 px-3 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent"
                 onChange={(e) => handleChange(e, key)}
                 placeholder="Select date"
@@ -125,7 +128,7 @@ const Filters = ({
           return (
             <div className="mr-3" key={key}>
               <label htmlFor={key} className="text-gray-700 font-medium">
-                {formData[key]?.displayName}
+                {formData?.[key]?.displayName}
               </label>
               {renderedInput}
             </div>
@@ -144,7 +147,7 @@ const Filters = ({
 
 export default Filters;
 
-function renderSelectionOptions(options: string[]) {
+function renderSelectOptions(options: string[]) {
   return options?.map((option) => (
     <option key={option} value={option}>
       {option}

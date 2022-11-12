@@ -22,9 +22,7 @@ const logsPerPage = 10;
 
 const App = ({ data }: AppProps) => {
   const { query } = useRouter();
-  console.log("query:", query);
   const [currentPage, setCurrentPage] = useState(1);
-
   const [formattedData, setFormattedData] = useState<PickedLogs>();
   const [activeKey, setActiveKey] = useState<PickedDataKeysType>(
     PickedDataKeys.logId
@@ -34,14 +32,19 @@ const App = ({ data }: AppProps) => {
   useEffect(() => {
     setFormattedData(
       dataMapper({
-        data: data,
-        currentPage: currentPage,
-        logsPerPage: logsPerPage,
-        activeKey: activeKey,
+        data,
+        currentPage,
+        logsPerPage,
+        activeKey,
         mode: sortMode,
+        query,
       })
     );
-  }, [data, currentPage, activeKey, sortMode]);
+  }, [data, currentPage, activeKey, sortMode, query]);
+
+  if (!formattedData?.length) {
+    return "No found data!!";
+  }
 
   const dataKeys =
     formattedData && (Object.keys(formattedData[0]) as PickedDataKeysType[]);
@@ -60,6 +63,7 @@ const App = ({ data }: AppProps) => {
         filterKeys={filterKeys}
         actionTypeOptions={actionTypeOptions}
         applicationTypeOptions={applicationTypeOptions}
+        query={query}
       />
       <DataTable
         formattedData={formattedData}
