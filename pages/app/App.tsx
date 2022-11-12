@@ -3,13 +3,14 @@ import { useRouter } from "next/router";
 import Layout from "./components/Layout";
 import Pagination from "./components/Pagination";
 import DataTable from "./components/DataTable";
-import Filters, { FilterKeys } from "./components/Filters";
+import Filters from "./components/Filters";
 import { dataMapper, sortFilterKeys } from "./helpers";
 import {
   AuditLog,
   PickedDataKeys,
   PickedDataKeysType,
   PickedLogs,
+  FilterKeys,
 } from "../../interfaces";
 import { insert, SortMode } from "../../utils";
 
@@ -46,10 +47,20 @@ const App = ({ data }: AppProps) => {
     formattedData && (Object.keys(formattedData[0]) as PickedDataKeysType[]);
 
   const filterKeys = extractFilterKeys(dataKeys);
+  const actionTypeOptions = Array.from(
+    new Set(data?.map((log) => log.actionType))
+  ).filter((option) => option !== null);
+  const applicationTypeOptions = Array.from(
+    new Set(data?.map((log) => log.applicationType))
+  ).filter((option) => option !== null);
 
   return (
     <Layout>
-      <Filters filterKeys={filterKeys} />
+      <Filters
+        filterKeys={filterKeys}
+        actionTypeOptions={actionTypeOptions}
+        applicationTypeOptions={applicationTypeOptions}
+      />
       <DataTable
         formattedData={formattedData}
         dataKeys={dataKeys}

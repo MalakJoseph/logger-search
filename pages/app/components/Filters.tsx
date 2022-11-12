@@ -1,21 +1,15 @@
-import React, { useState, FormEvent, useEffect, ReactElement } from "react";
+import React, {
+  useState,
+  FormEvent,
+  useEffect,
+  ReactElement,
+  useCallback,
+} from "react";
 import { useRouter } from "next/router";
 import { capitalizeString } from "../../../utils";
-import {
-  parseSearchQuery,
-  stringifySearchQuery,
-} from "../../../utils/resolveSearchQuery";
+import { stringifySearchQuery } from "../../../utils/resolveSearchQuery";
 import { assignType } from "../helpers";
-
-export type FilterKeys =
-  | "logId"
-  | "applicationType"
-  | "applicationId"
-  | "actionType"
-  | "fromData"
-  | "toData";
-
-export type InputTypes = "select" | "input" | "date-picker";
+import { FilterKeys, InputTypes, PickedDataKeys } from "../../../interfaces";
 
 type FormData = {
   [key in FilterKeys]: {
@@ -27,27 +21,33 @@ type FormData = {
 
 interface FiltersProps {
   filterKeys: FilterKeys[];
+  actionTypeOptions: string[];
+  applicationTypeOptions: string[];
 }
 
-const Filters = ({ filterKeys }: FiltersProps) => {
+const Filters = ({
+  filterKeys,
+  actionTypeOptions,
+  applicationTypeOptions,
+}: FiltersProps) => {
   const { push, pathname } = useRouter();
   const [formData, setFormData] = useState<FormData>();
 
+  const resetFormData = useCallback(() => {
+    let store = {} as FormData;
+    filterKeys?.forEach(
+      (key) =>
+        (store[key] = {
+          displayName: capitalizeString(key),
+          type: assignType(key),
+          value: null,
+        })
+    );
+    return store;
+  }, [filterKeys]);
+
   useEffect(() => {
-    setFormData(() => {
-      let dataObject = {} as FormData;
-
-      filterKeys?.forEach(
-        (key) =>
-          (dataObject[key] = {
-            displayName: capitalizeString(key),
-            type: assignType(key),
-            value: null,
-          })
-      );
-
-      return dataObject;
-    });
+    setFormData(resetFormData);
   }, [filterKeys]);
 
   const handleChange = (e: any, key: FilterKeys) => {
@@ -62,12 +62,13 @@ const Filters = ({ filterKeys }: FiltersProps) => {
     let dataToSubmit = {} as Record<string, string>[];
 
     filterKeys.forEach((key) => {
-      if (!formData[key].value) {
+      if (!formData[key]?.value) {
         return;
       }
       dataToSubmit[key] = formData[key].value;
     });
 
+    setFormData(resetFormData);
     push(`${pathname}/?${stringifySearchQuery(dataToSubmit)}`);
   };
 
@@ -82,6 +83,7 @@ const Filters = ({ filterKeys }: FiltersProps) => {
               <input
                 type="text"
                 id={key}
+                value={formData[key].value}
                 className="rounded-md border-transparent mt-0.5  flex-1 appearance-none border border-gray-300 w-full py-1 px-3 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent"
                 onChange={(e) => handleChange(e, key)}
                 placeholder="659481832792580"
@@ -93,12 +95,16 @@ const Filters = ({ filterKeys }: FiltersProps) => {
             renderedInput = (
               <select
                 id={key}
+                value={formData[key].value}
                 className="rounded-md border-transparent mt-0.5 flex-1 border border-gray-300 w-full py-1 px-3 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent focus:ring-primary-500 focus:border-primary-500"
                 onChange={(e) => handleChange(e, key)}
               >
                 <option value="">Select an option</option>
-                <option value="dog">Dog</option>
-                <option value="cat">Cat</option>
+                {renderSelectionOptions(
+                  key === PickedDataKeys.actionType
+                    ? actionTypeOptions
+                    : applicationTypeOptions
+                )}
               </select>
             );
           }
@@ -108,6 +114,7 @@ const Filters = ({ filterKeys }: FiltersProps) => {
               <input
                 type="text"
                 id="from-date"
+                value={formData[key].value}
                 className="rounded-md border-transparent mt-0.5  flex-1 appearance-none border border-gray-300 w-full py-1 px-3 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-sky-600 focus:border-transparent"
                 onChange={(e) => handleChange(e, key)}
                 placeholder="Select date"
@@ -136,3 +143,11 @@ const Filters = ({ filterKeys }: FiltersProps) => {
 };
 
 export default Filters;
+
+function renderSelectionOptions(options: string[]) {
+  return options?.map((option) => (
+    <option key={option} value={option}>
+      {option}
+    </option>
+  ));
+}

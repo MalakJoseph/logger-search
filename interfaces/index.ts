@@ -37,3 +37,13 @@ export enum PickedDataKeys {
 export type PickedDataKeysType = keyof typeof PickedDataKeys;
 
 export type PickedLogs = Pick<AuditLog, PickedDataKeysType>[];
+
+export type FilterKeys =
+  | "logId"
+  | "applicationType"
+  | "applicationId"
+  | "actionType"
+  | "fromData"
+  | "toData";
+
+export type InputTypes = "select" | "input" | "date-picker";
