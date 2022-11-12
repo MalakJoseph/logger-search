@@ -43,7 +43,7 @@ export type FilterKeys =
   | "applicationType"
   | "applicationId"
   | "actionType"
-  | "fromData"
-  | "toData";
+  | "fromDate"
+  | "toDate";
 
 export type InputTypes = "select" | "input" | "date-picker";

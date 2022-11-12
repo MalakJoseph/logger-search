@@ -116,7 +116,7 @@ function extractFilterKeys(oldKeys: PickedDataKeysType[]) {
   const newKeys: FilterKeys[] = insert(
     sortedFilterKeys,
     sortedFilterKeys?.length - 1,
-    ["fromData", "toData"]
+    ["fromDate", "toDate"]
   );
 
   return newKeys;
