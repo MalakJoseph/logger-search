@@ -40,7 +40,7 @@ const Pagination = ({
           key={i}
           type="button"
           className={`w-full px-4 py-2 border-t border-b border-r text-base bg-white hover:bg-gray-100 ${
-            currentPage === i ? "text-indigo-500 text-lg" : ""
+            currentPage === i ? "text-sky-500 text-lg" : ""
           }`}
           onClick={() => setCurrentPage(i)}
         >
