@@ -36,21 +36,27 @@ const Filters = ({
   const { push, pathname } = useRouter();
   const [formData, setFormData] = useState<FormData>();
 
-  const resetFormData = useCallback(() => {
-    let store = {} as FormData;
-    filterKeys?.forEach(
-      (key) =>
-        (store[key] = {
-          displayName: capitalizeString(key),
-          type: assignType(key),
-          value: (query[key] as string) || "",
-        })
-    );
-    return store;
-  }, [filterKeys]);
+  const formatData = useCallback(
+    (reset?: boolean) => {
+      let store = {} as FormData;
+      filterKeys?.forEach(
+        (key) =>
+          (store[key] = {
+            displayName: capitalizeString(key),
+            type: assignType(key),
+            value: reset ? "" : query[key] ? (query[key] as string) : "",
+          })
+      );
+      setFormData(store);
+      if (reset) {
+        push("/");
+      }
+    },
+    [filterKeys]
+  );
 
   useEffect(() => {
-    setFormData(resetFormData);
+    formatData();
   }, [filterKeys]);
 
   const handleChange = (e: any, key: FilterKeys) => {
@@ -71,7 +77,7 @@ const Filters = ({
       dataToSubmit[key] = formData[key].value;
     });
 
-    setFormData(resetFormData);
+    formatData();
     push(`${pathname}/?${stringifySearchQuery(dataToSubmit)}`);
   };
 
@@ -135,12 +141,21 @@ const Filters = ({
           );
         })}
       </div>
-      <button
-        type="submit"
-        className="px-3 py-1 text-base font-semibold text-white bg-sky-600 rounded-md shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-sky-200"
-      >
-        Filter
-      </button>
+      <div className="flex flex-col">
+        <button
+          type="submit"
+          className="mb-1 px-3 py-1 text-base font-semibold text-white bg-sky-600 rounded-md shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-sky-200"
+        >
+          Filter
+        </button>
+        <button
+          type="button"
+          className="px-3 py-1 bg-red-400 text-base font-semibold text-white rounded-md shadow-md hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-sky-200"
+          onClick={() => formatData(true)}
+        >
+          Reset
+        </button>
+      </div>
     </form>
   );
 };
