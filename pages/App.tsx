@@ -13,6 +13,7 @@ import {
   FilterKeys,
 } from "../interfaces";
 import { insert, SortMode } from "../utils";
+import { InfoIcon } from "../src/assets/icons";
 
 interface AppProps {
   data: AuditLog[];
@@ -21,7 +22,7 @@ interface AppProps {
 const logsPerPage = 10;
 
 const App = ({ data }: AppProps) => {
-  const { query } = useRouter();
+  const { push, query } = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [formattedData, setFormattedData] = useState<PickedLogs>();
   const [totalCount, setTotalCount] = useState<number>(data?.length);
@@ -42,6 +43,29 @@ const App = ({ data }: AppProps) => {
     setFormattedData(pickedLogs);
     setTotalCount(totalCount);
   }, [data, currentPage, activeKey, sortMode, query]);
+
+  if (!formattedData?.length) {
+    return (
+      <div className="h-screen w-screen flex flex-col justify-center items-center">
+        <div className="flex flex-col items-center">
+          <div
+            className="container mb-2 rounded-lg bg-blue-500 flex items-center text-white text-sm font-bold px-4 py-3 relative"
+            role="alert"
+          >
+            <InfoIcon />
+            <p>No found data!!</p>
+          </div>
+          <button
+            type="button"
+            className="py-2 px-4 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg"
+            onClick={() => push("/")}
+          >
+            Go back
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const dataKeys =
     formattedData && (Object.keys(formattedData[0]) as PickedDataKeysType[]);

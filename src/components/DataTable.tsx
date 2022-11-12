@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { PickedDataKeysType, PickedLogs } from "../../interfaces";
-import { ChevronUp } from "../assets/icons/ChevronUp";
+import { ChevronUp } from "../assets/icons/";
 import { capitalizeString, SortMode } from "../../utils";
 
 interface DataTableProps {

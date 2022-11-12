@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, ReactElement } from "react";
-import { ChevronUp } from "../assets/icons/ChevronUp";
+import { ChevronUp } from "../assets/icons/";
 
 interface PaginationProps {
   currentPage: number;
