@@ -11,8 +11,8 @@ import {
   PickedDataKeysType,
   PickedLogs,
   FilterKeys,
-} from "../../interfaces";
-import { insert, SortMode } from "../../utils";
+} from "../interfaces";
+import { insert, SortMode } from "../utils";
 
 interface AppProps {
   data: AuditLog[];

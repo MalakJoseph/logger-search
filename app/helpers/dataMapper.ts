@@ -4,8 +4,8 @@ import {
   FilterKeys,
   PickedDataKeysType,
   PickedLogs,
-} from "../../../interfaces";
-import { sortData, SortMode } from "../../../utils";
+} from "../../interfaces";
+import { sortData, SortMode } from "../../utils";
 
 type DataMapperProps = {
   data: AuditLog[];

@@ -1,4 +1,4 @@
-import { PickedDataKeys, FilterKeys, InputTypes } from "../../../interfaces";
+import { PickedDataKeys, FilterKeys, InputTypes } from "../../interfaces";
 
 export function assignType(key: FilterKeys): InputTypes {
   if (

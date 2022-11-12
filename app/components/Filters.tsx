@@ -7,10 +7,10 @@ import React, {
 } from "react";
 import { useRouter } from "next/router";
 import { ParsedUrlQuery } from "querystring";
-import { capitalizeString } from "../../../utils";
-import { stringifySearchQuery } from "../../../utils/resolveSearchQuery";
+import { capitalizeString } from "../../utils";
+import { stringifySearchQuery } from "../../utils/resolveSearchQuery";
 import { assignType } from "../helpers";
-import { FilterKeys, InputTypes, PickedDataKeys } from "../../../interfaces";
+import { FilterKeys, InputTypes, PickedDataKeys } from "../../interfaces";
 
 type FormData = {
   [key in FilterKeys]: {

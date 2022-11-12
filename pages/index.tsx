@@ -4,7 +4,7 @@ import { BallTriangle } from "react-loader-spinner";
 import useSWR from "swr";
 import { AuditLog } from "../interfaces";
 import handler from "./api/logs";
-import App from "./app/App";
+import App from "../app/App";
 
 const IndexPage: NextPage = () => {
   const { data, error } = useSWR<AuditLog[], Error>("/api/logs", handler);
