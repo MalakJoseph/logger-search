@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Layout from "./components/Layout";
-import Pagination from "./components/Pagination";
-import DataTable from "./components/DataTable";
-import Filters from "./components/Filters";
-import { dataMapper, sortFilterKeys } from "./helpers";
+import Layout from "../src/components/Layout";
+import Pagination from "../src/components/Pagination";
+import DataTable from "../src/components/DataTable";
+import Filters from "../src/components/Filters";
+import { dataMapper, sortFilterKeys } from "../src/helpers";
 import {
   AuditLog,
   PickedDataKeys,
