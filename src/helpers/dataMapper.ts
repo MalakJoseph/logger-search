@@ -49,12 +49,12 @@ function filterData(data: AuditLog[], query: ParsedUrlQuery) {
 
   data?.forEach((log) => {
     queriedKeys?.forEach((key) => {
-      const suitedQueryKey =
+      const suitedQueryValue =
         typeof log[key] === "number" ? +query[key] : query[key];
       const isNewLog =
         store.findIndex((cachedLog) => +cachedLog.logId === log.logId) === -1;
 
-      if (log[key] === suitedQueryKey && isNewLog) {
+      if (log[key] === suitedQueryValue && isNewLog) {
         store.push({
           ...log,
           [key]: query[key],
