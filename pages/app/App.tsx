@@ -24,22 +24,23 @@ const App = ({ data }: AppProps) => {
   const { query } = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [formattedData, setFormattedData] = useState<PickedLogs>();
+  const [totalCount, setTotalCount] = useState<number>(data?.length);
   const [activeKey, setActiveKey] = useState<PickedDataKeysType>(
     PickedDataKeys.logId
   );
   const [sortMode, setSortMode] = useState<SortMode>("DEFAULT");
 
   useEffect(() => {
-    setFormattedData(
-      dataMapper({
-        data,
-        currentPage,
-        logsPerPage,
-        activeKey,
-        mode: sortMode,
-        query,
-      })
-    );
+    const { pickedLogs, totalCount } = dataMapper({
+      data,
+      currentPage,
+      logsPerPage,
+      activeKey,
+      mode: sortMode,
+      query,
+    });
+    setFormattedData(pickedLogs);
+    setTotalCount(totalCount);
   }, [data, currentPage, activeKey, sortMode, query]);
 
   if (!formattedData?.length) {
@@ -77,7 +78,7 @@ const App = ({ data }: AppProps) => {
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         logsPerPage={logsPerPage}
-        totalCount={data.length}
+        totalCount={totalCount}
       />
     </Layout>
   );

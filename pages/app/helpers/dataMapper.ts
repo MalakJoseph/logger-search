@@ -23,7 +23,7 @@ export function dataMapper({
   mode,
   activeKey,
   query,
-}: DataMapperProps): PickedLogs {
+}: DataMapperProps): { pickedLogs: PickedLogs; totalCount: number } {
   const isFilters = Object.keys(query).length !== 0;
   const filteredData = isFilters ? filterData(data, query) : data;
   const sortedData = filteredData.sort(sortData(activeKey, mode));
@@ -38,8 +38,9 @@ export function dataMapper({
     logInfo: log.logInfo,
     creationTimestamp: log.creationTimestamp,
   }));
+  const totalCount = filteredData.length;
 
-  return pickedLogs;
+  return { pickedLogs, totalCount };
 }
 
 function filterData(data: AuditLog[], query: ParsedUrlQuery) {
