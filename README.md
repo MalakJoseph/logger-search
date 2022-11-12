@@ -1,47 +1,46 @@
-# TypeScript Next.js example
+# Logger Search
 
-This is a really simple project that shows the usage of Next.js with TypeScript.
+![Image](https://user-images.githubusercontent.com/35667900/201498073-8b8d5aed-b424-48bb-b4d2-0e88f48198bf.png)
 
-## Deploy your own
+## Table of Contents
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-typescript)
+- [About the Project](#about-the-project)
+- [Technologies Used](#technologies-used)
+- [Steps to run the Project](#steps-to-run-the-project)
+  - [Installing The Project in **_Development Mode_**](#installing-the-project-in-development-mode)
+  - [Live Demo](#live-demo)
+- [License](#license)
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-typescript&project-name=with-typescript&repository-name=with-typescript)
+### About the Project
 
-## How to use it?
+- **Logger Search** is a data visualization table project where you can `find`, `sort`, and `filter` data on the fly.
+- It consumes a mocky API (so far) but maybe one day will be a generic package!
+- Using the best technologies to handle Performance & UI
+- Also, a _Playground_ to apply more learned skills.
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+### Technologies used
 
-```bash
-npx create-next-app --example with-typescript with-typescript-app
-```
+- **_NextJS_** with SSG pre-rendering methodology
+- **_SWR_** for data fetching
+- **_Typescript_**
+- And the amazing _**Tailwind**_ for UI and styling
 
-```bash
-yarn create next-app --example with-typescript with-typescript-app
-```
+### Steps to Run The Project
 
-```bash
-pnpm create next-app --example with-typescript with-typescript-app
-```
+#### Installing The Project in **_Development Mode_**
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+1. Clone the repository by running this command
+   `git clone https://github.com/MalakJoseph/logger-search.git`.
+2. Go to the project directory `cd logger-search`.
+3. Install packages with `npm install`.
+4. Run in development mode `npm run dev`.
+5. switch to `localhost:3000`
 
-## Notes
+#### Live Demo
 
-This example shows how to integrate the TypeScript type system into Next.js. Since TypeScript is supported out of the box with Next.js, all we have to do is to install TypeScript.
+This project has been deployed on [Netlify](https://www.netlify.com/).
+You can visit from [here](https://mj-logger-search.netlify.app/).
 
-```
-npm install --save-dev typescript
-```
+### License
 
-To enable TypeScript's features, we install the type declarations for React and Node.
-
-```
-npm install --save-dev @types/react @types/react-dom @types/node
-```
-
-When we run `next dev` the next time, Next.js will start looking for any `.ts` or `.tsx` files in our project and builds it. It even automatically creates a `tsconfig.json` file for our project with the recommended settings.
-
-Next.js has built-in TypeScript declarations, so we'll get autocompletion for Next.js' modules straight away.
-
-A `type-check` script is also added to `package.json`, which runs TypeScript's `tsc` CLI in `noEmit` mode to run type-checking separately. You can then include this, for example, in your `test` scripts.
+This project is licensed under the terms of the ISC license.
