@@ -2,10 +2,11 @@ import { ParsedUrlQuery } from "querystring";
 import {
   AuditLog,
   FilterKeys,
+  PickedDataKeys,
   PickedDataKeysType,
   PickedLogs,
 } from "../../interfaces";
-import { sortData, SortMode } from "../../utils";
+import { isInDateRange, sortData, SortMode } from "../../utils";
 
 type DataMapperProps = {
   data: AuditLog[];
@@ -49,6 +50,21 @@ function filterData(data: AuditLog[], query: ParsedUrlQuery) {
 
   data?.forEach((log) => {
     queriedKeys?.forEach((key) => {
+      if (key === "toDate") return;
+
+      if (key === "fromDate") {
+        if (
+          isInDateRange(
+            log["creationTimestamp"],
+            query["fromDate"] as string,
+            query["toDate"] as string
+          )
+        ) {
+          store.push(log);
+        }
+        return;
+      }
+
       const suitedQueryValue =
         typeof log[key] === "number" ? +query[key] : query[key];
       const isNewLog =
@@ -63,5 +79,36 @@ function filterData(data: AuditLog[], query: ParsedUrlQuery) {
     });
   });
 
-  return store;
+  const purgedStore = store?.filter((log) => {
+    let validator: boolean[] = [];
+
+    queriedKeys.forEach((key) => {
+      let pass = false;
+
+      if (key === "toDate") return;
+
+      if (key === "fromDate") {
+        if (
+          isInDateRange(
+            log[PickedDataKeys.creationTimestamp],
+            query["fromDate"] as string,
+            query["toDate"] as string
+          )
+        ) {
+          pass = true;
+        }
+      }
+
+      if (pass || log[key] === query[key]) {
+        validator.push(true);
+        return;
+      }
+
+      validator.push(false);
+    });
+
+    return validator.every((value) => value === true);
+  });
+
+  return purgedStore;
 }
