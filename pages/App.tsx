@@ -67,8 +67,7 @@ const App = ({ data }: AppProps) => {
     );
   }
 
-  const dataKeys =
-    formattedData && (Object.keys(formattedData[0]) as PickedDataKeysType[]);
+  const dataKeys = Object.keys(formattedData[0]) as PickedDataKeysType[];
 
   const filterKeys = extractFilterKeys(dataKeys);
   const actionTypeOptions = Array.from(

@@ -22,7 +22,6 @@ const DataTable = ({
 }: DataTableProps) => {
   const sortColumn = (key: PickedDataKeysType) => {
     const toggledMode = sortMode === "DESC" ? "ASC" : "DESC";
-    // sortMode === "ASC" ? "DESC" : sortMode === "DESC" ? "ASC" : "DESC";
 
     if (key === activeKey) {
       setSortMode(toggledMode);
