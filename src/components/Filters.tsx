@@ -78,7 +78,7 @@ const Filters = ({
     });
 
     formatData();
-    push(`${pathname}/?${stringifySearchQuery(dataToSubmit)}`);
+    push(`${pathname}?${stringifySearchQuery(dataToSubmit)}`);
   };
 
   return (
