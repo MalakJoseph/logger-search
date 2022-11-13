@@ -42,6 +42,16 @@ const App = ({ data }: AppProps) => {
     });
     setFormattedData(pickedLogs);
     setTotalCount(totalCount);
+    return () => {
+      dataMapper({
+        data,
+        currentPage,
+        logsPerPage,
+        activeKey,
+        mode: sortMode,
+        query,
+      });
+    };
   }, [data, currentPage, activeKey, sortMode, query]);
 
   if (!formattedData?.length) {
