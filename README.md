@@ -20,7 +20,7 @@
 
 ### Technologies used
 
-- **_NextJS_** with SSG pre-rendering methodology
+- **_NextJS_** with CSR methodology
 - **_SWR_** for data fetching
 - **_Typescript_**
 - And the amazing _**Tailwind**_ for UI and styling
