@@ -31,7 +31,7 @@ const DataTable = ({
   };
 
   return (
-    <table className="table p-4 my-5 w-full bg-white shadow rounded-lg text-sm">
+    <table className="table p-4 my-5 w-full bg-white shadow rounded-lg text-sm table-fixed">
       <thead>
         <tr>
           {dataKeys?.map((key) => (

@@ -15,7 +15,7 @@ const IndexPage: NextPage = () => {
     );
   }
 
-  if (!data)
+  if (!data?.length)
     return (
       <div className="h-screen flex justify-center items-center">
         <BallTriangle />
