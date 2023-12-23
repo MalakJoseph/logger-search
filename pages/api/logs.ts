@@ -2,7 +2,7 @@ import { Data } from "../../interfaces";
 
 const handler = async () => {
   const res = await fetch(
-    "https://run.mocky.io/v3/a2fbc23e-069e-4ba5-954c-cd910986f40f"
+    "https://run.mocky.io/v3/30c8148b-8dcf-4f8c-8f13-4fc457066a77"
   );
   const data: Data = await res.json();
 
