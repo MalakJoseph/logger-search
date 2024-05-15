@@ -1,4 +1,4 @@
-export const data = {
+export const tempData = {
   "success": true,
   "elapsed": 70,
   "result": {
